@@ -5437,13 +5437,21 @@ function fetchAppVersion() {
 }
 async function main() {
     const cdflowVersion = (0, core_1.getInput)("version");
-    const cdflowPath = await (0, tool_cache_1.downloadTool)(`https://github.com/mergermarket/cdflow2/releases/${cdflowVersion}/download/cdflow2-${process_1.default.platform}-${cdflowArch()}`);
-    await fs_1.default.promises.chmod(cdflowPath, 0o775);
-    const cdflowPathDir = cdflowPath + "_dir";
-    const cdflow2Leafname = process_1.default.platform === "win32" ? "cdflow2.exe" : "cdflow2";
-    const cdflow2Exe = cdflowPathDir + "/" + cdflow2Leafname;
-    await (0, io_1.mv)(cdflowPath, cdflow2Exe);
-    (0, core_1.addPath)(cdflowPathDir);
+    let toolPath = (0, tool_cache_1.find)("cdflow2", cdflowVersion, cdflowArch());
+    if (!toolPath) {
+        const cdflowPath = await (0, tool_cache_1.downloadTool)(`https://github.com/mergermarket/cdflow2/releases/${cdflowVersion}/download/cdflow2-${process_1.default.platform}-${cdflowArch()}`);
+        await fs_1.default.promises.chmod(cdflowPath, 0o775);
+        const cdflowPathDir = cdflowPath + "_dir";
+        const cdflow2Leafname = process_1.default.platform === "win32" ? "cdflow2.exe" : "cdflow2";
+        const cdflow2Exe = cdflowPathDir + "/" + cdflow2Leafname;
+        await (0, io_1.mv)(cdflowPath, cdflow2Exe);
+        (0, core_1.info)('Caching cdflow2');
+        toolPath = await (0, tool_cache_1.cacheDir)(cdflowPathDir, "cdflow2", cdflowVersion, cdflowArch());
+    }
+    else {
+        (0, core_1.info)('Used cached cdflow2');
+    }
+    (0, core_1.addPath)(toolPath);
     const cdflowCommand = (0, core_1.getInput)("command");
     if (cdflowCommand === "")
         return;
