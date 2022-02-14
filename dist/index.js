@@ -5430,10 +5430,11 @@ function cdflowArch() {
     }
 }
 function fetchAppVersion() {
+    var _a;
     const configured = (0, core_1.getInput)("appVersion");
     if (configured !== "")
         return configured;
-    return `${process_1.default.env.GITHUB_WORKFLOW}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_SHA}`;
+    return `${(_a = process_1.default.env.GITHUB_REPOSITORY) === null || _a === void 0 ? void 0 : _a.replace("/", "_")}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_SHA}`;
 }
 async function main() {
     const cdflowVersion = (0, core_1.getInput)("version");
@@ -5445,11 +5446,11 @@ async function main() {
         const cdflow2Leafname = process_1.default.platform === "win32" ? "cdflow2.exe" : "cdflow2";
         const cdflow2Exe = cdflowPathDir + "/" + cdflow2Leafname;
         await (0, io_1.mv)(cdflowPath, cdflow2Exe);
-        (0, core_1.info)('Caching cdflow2');
+        (0, core_1.debug)('Caching cdflow2');
         toolPath = await (0, tool_cache_1.cacheDir)(cdflowPathDir, "cdflow2", cdflowVersion, cdflowArch());
     }
     else {
-        (0, core_1.info)('Used cached cdflow2');
+        (0, core_1.debug)('Used cached cdflow2');
     }
     (0, core_1.addPath)(toolPath);
     const cdflowCommand = (0, core_1.getInput)("command");
