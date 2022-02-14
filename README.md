@@ -27,7 +27,7 @@ steps:
       command: release
 ```
 
-The action with synthesise an application version from the workflow name, run number and latest revision SHA.
+The action with synthesise an application version from the repo name, run number and latest revision SHA.
 
 You would typically also specify AWS credentials in the environment here (referencing relevant secrets).
 
