@@ -24,4 +24,4 @@ jobs:
 
       - name: Compare dist with repo
         run: |
-          git diff-files --stat --summary --exit-code dist
+          git diff --exit-code dist
