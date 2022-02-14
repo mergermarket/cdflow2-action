@@ -34,11 +34,11 @@ async function main() {
         const cdflow2Leafname = process.platform === "win32" ? "cdflow2.exe" : "cdflow2"
         const cdflow2Exe = cdflowPathDir + "/" + cdflow2Leafname
         await mv(cdflowPath, cdflow2Exe)
-        info('Caching cdflow2')
+        debug('Caching cdflow2')
         toolPath = await cacheDir(cdflowPathDir, "cdflow2", cdflowVersion, cdflowArch())
     }
     else {
-        info('Used cached cdflow2')
+        debug('Used cached cdflow2')
     }
 
     addPath(toolPath)
