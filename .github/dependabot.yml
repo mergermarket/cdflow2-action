@@ -1,0 +1,32 @@
+version: 2
+registries:
+  npm-registry-npm-pkg-github-com:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: "${{secrets.NPM_REGISTRY_NPM_PKG_GITHUB_COM_TOKEN}}"
+
+updates:
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "07:00"
+      timezone: Europe/London
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: node
+        versions:
+          - ">=15.x"
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "07:00"
+      timezone: Europe/London
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - ">=15.x"
+    registries:
+      - npm-registry-npm-pkg-github-com

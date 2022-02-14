@@ -1,0 +1,26 @@
+name: 'Run cdflow2'
+description: 'Runs cdflow2 in current build'
+inputs:
+  version:
+    description: 'cdflow2 version'
+    required: true
+    default: 'latest'
+  command:
+    description: 'cdflow2 command to run; empty to just download'
+    required: false
+  environment:
+    description: 'cdflow2 environment for deploy command'
+    required: false
+  newState:
+    description: 'create a new state file when deploying'
+    required: true
+    default: 'false'
+  appVersion:
+    description: 'version of app for deploy/release commands'
+    required: false
+  shellArgs:
+    description: 'additional shell arguments for shell command'
+    required: false
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
