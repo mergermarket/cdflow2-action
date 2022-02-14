@@ -8,7 +8,7 @@ See [action.yml](action.yml)
 
 ```yaml
 steps:
-  - uses: mergermarket/cdflow2-action@%version%
+  - uses: mergermarket/cdflow2-action@v1
 ```
 
 This will download cdflow2 and make it available on the path, so you can simply run
@@ -22,7 +22,7 @@ This also runs `cdflow2 release`
 
 ```yaml
 steps:
-  - uses: mergermarket/cdflow2-action@%version%
+  - uses: mergermarket/cdflow2-action@v1
     with:
       command: release
 ```
@@ -37,7 +37,7 @@ This also runs `cdflow2 deploy` or `cdflow2 destroy`
 
 ```yaml
 steps:
-  - uses: mergermarket/cdflow2-action@%version%
+  - uses: mergermarket/cdflow2-action@v1
     with:
       command: deploy
       environment: aslive
