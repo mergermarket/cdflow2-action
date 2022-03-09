@@ -53,17 +53,17 @@ async function main() {
         }
     }
 
-    const args = [cdflowCommand]
+    const args: string[] = []
+
+    const component = getInput("component", { required: false })
+    if (component.length > 0) {
+        args.push("--component", component)
+    }
+
+    args.push(cdflowCommand)
 
     if (cdflowCommand === "deploy" && getBooleanInput("newState")) {
         args.push("--new-state")
-    }
-
-    if (cdflowCommand === "release" || cdflowCommand === "deploy" || cdflowCommand === "destroy") {
-        const component = getInput("component", { required: false })
-        if (component.length > 0) {
-            args.push("--component", component)
-        }
     }
 
     if (cdflowCommand === "deploy" || cdflowCommand === "destroy" || cdflowCommand === "shell") {

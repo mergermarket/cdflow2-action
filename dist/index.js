@@ -5462,15 +5462,14 @@ async function main() {
             cdflowEnvironment[name] = value;
         }
     }
-    const args = [cdflowCommand];
+    const args = [];
+    const component = (0, core_1.getInput)("component", { required: false });
+    if (component.length > 0) {
+        args.push("--component", component);
+    }
+    args.push(cdflowCommand);
     if (cdflowCommand === "deploy" && (0, core_1.getBooleanInput)("newState")) {
         args.push("--new-state");
-    }
-    if (cdflowCommand === "release" || cdflowCommand === "deploy" || cdflowCommand === "destroy") {
-        const component = (0, core_1.getInput)("component", { required: false });
-        if (component.length > 0) {
-            args.push("--component", component);
-        }
     }
     if (cdflowCommand === "deploy" || cdflowCommand === "destroy" || cdflowCommand === "shell") {
         args.push((0, core_1.getInput)("environment"));
