@@ -1,7 +1,7 @@
 import process from "process"
 import fs from "fs"
-import {addPath, debug, getBooleanInput, getInput, info, setFailed} from "@actions/core"
-import {cacheDir, cacheFile, downloadTool, find} from "@actions/tool-cache"
+import {addPath, debug, getBooleanInput, getInput, setFailed} from "@actions/core"
+import {cacheDir, downloadTool, find} from "@actions/tool-cache"
 import {exec} from "@actions/exec"
 import {mv} from "@actions/io";
 
@@ -57,6 +57,13 @@ async function main() {
 
     if (cdflowCommand === "deploy" && getBooleanInput("newState")) {
         args.push("--new-state")
+    }
+
+    if (cdflowCommand === "release" || cdflowCommand === "deploy" || cdflowCommand === "destroy") {
+        const component = getInput("component", { required: false })
+        if (component.length > 0) {
+            args.push("--component", component)
+        }
     }
 
     if (cdflowCommand === "deploy" || cdflowCommand === "destroy" || cdflowCommand === "shell") {

@@ -21,6 +21,9 @@ inputs:
   shellArgs:
     description: 'additional shell arguments for shell command'
     required: false
+  component:
+    description: 'component to act on'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
