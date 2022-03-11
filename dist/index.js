@@ -5434,7 +5434,7 @@ function fetchAppVersion() {
     const configured = (0, core_1.getInput)("appVersion");
     if (configured !== "")
         return configured;
-    return `${(_a = process_1.default.env.GITHUB_REPOSITORY) === null || _a === void 0 ? void 0 : _a.replace("/", "_")}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_SHA}`;
+    return `${(_a = process_1.default.env.GITHUB_REPOSITORY) === null || _a === void 0 ? void 0 : _a.replace("/", "_")}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_RUN_ATTEMPT}-${process_1.default.env.GITHUB_SHA}`;
 }
 async function main() {
     const cdflowVersion = (0, core_1.getInput)("version");

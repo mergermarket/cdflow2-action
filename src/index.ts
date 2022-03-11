@@ -18,7 +18,7 @@ function fetchAppVersion(): string {
     const configured = getInput("appVersion")
     if (configured !== "") return configured
 
-    return `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_SHA}`
+    return `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_RUN_ATTEMPT}-${process.env.GITHUB_SHA}`
 }
 
 async function main() {
