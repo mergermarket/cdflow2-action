@@ -5421,6 +5421,7 @@ const core_1 = __nccwpck_require__(186);
 const tool_cache_1 = __nccwpck_require__(784);
 const exec_1 = __nccwpck_require__(514);
 const io_1 = __nccwpck_require__(436);
+const https_1 = __importDefault(__nccwpck_require__(687));
 function cdflowArch() {
     switch (process_1.default.arch) {
         case "x64":
@@ -5436,11 +5437,55 @@ function fetchAppVersion() {
         return configured;
     return `${(_a = process_1.default.env.GITHUB_REPOSITORY) === null || _a === void 0 ? void 0 : _a.replace("/", "_")}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_RUN_ATTEMPT}-${process_1.default.env.GITHUB_SHA}`;
 }
+async function getJson(url) {
+    return new Promise(((resolve, reject) => {
+        const req = https_1.default.request(url, {
+            headers: {
+                "accept": "application/vnd.github.v3+json",
+                "user-agent": "cdflow2-action/0.0"
+            }
+        }, res => {
+            if (res.statusCode !== 200) {
+                const error = new Error(`${url}: ${res.statusCode} ${res.statusMessage}`);
+                res.destroy(error);
+                reject(error);
+                return;
+            }
+            const chunks = [];
+            res.on("data", chunk => {
+                chunks.push(chunk);
+            });
+            res.on("end", () => {
+                switch (chunks.length) {
+                    case 0:
+                        reject(new Error(`${url}: no data`));
+                        break;
+                    case 1:
+                        resolve(JSON.parse(chunks[0].toString()));
+                        break;
+                    default:
+                        resolve(JSON.parse(Buffer.concat(chunks).toString()));
+                }
+            });
+            res.on("error", err => {
+                reject(err);
+            });
+        });
+        req.end();
+    }));
+}
+async function resolveVersion(input) {
+    if (input !== "latest")
+        return input;
+    const { tag_name } = await getJson('https://api.github.com/repos/mergermarket/cdflow2/releases/latest');
+    (0, core_1.info)(`Using latest cdflow2: '${tag_name}'`);
+    return tag_name;
+}
 async function main() {
-    const cdflowVersion = (0, core_1.getInput)("version");
+    const cdflowVersion = await resolveVersion((0, core_1.getInput)("version"));
     let toolPath = (0, tool_cache_1.find)("cdflow2", cdflowVersion, cdflowArch());
     if (!toolPath) {
-        const cdflowPath = await (0, tool_cache_1.downloadTool)(`https://github.com/mergermarket/cdflow2/releases/${cdflowVersion}/download/cdflow2-${process_1.default.platform}-${cdflowArch()}`);
+        const cdflowPath = await (0, tool_cache_1.downloadTool)(`https://github.com/mergermarket/cdflow2/releases/download/${cdflowVersion}/cdflow2-${process_1.default.platform}-${cdflowArch()}`);
         await fs_1.default.promises.chmod(cdflowPath, 0o775);
         const cdflowPathDir = cdflowPath + "_dir";
         const cdflow2Leafname = process_1.default.platform === "win32" ? "cdflow2.exe" : "cdflow2";

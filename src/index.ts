@@ -1,9 +1,10 @@
 import process from "process"
 import fs from "fs"
-import {addPath, debug, getBooleanInput, getInput, setFailed} from "@actions/core"
+import {addPath, debug, getBooleanInput, getInput, info, setFailed} from "@actions/core"
 import {cacheDir, downloadTool, find} from "@actions/tool-cache"
 import {exec} from "@actions/exec"
-import {mv} from "@actions/io";
+import {mv} from "@actions/io"
+import https from "https";
 
 function cdflowArch(): string {
     switch (process.arch) {
@@ -21,13 +22,60 @@ function fetchAppVersion(): string {
     return `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_RUN_ATTEMPT}-${process.env.GITHUB_SHA}`
 }
 
+async function getJson<T = any>(url: string): Promise<T> {
+    return new Promise(((resolve, reject) => {
+        const req = https.request(url, {
+            headers: {
+                "accept": "application/vnd.github.v3+json",
+                "user-agent": "cdflow2-action/0.0"
+            }
+        }, res => {
+            if (res.statusCode !== 200) {
+                const error = new Error(`${url}: ${res.statusCode} ${res.statusMessage}`)
+                res.destroy(error)
+                reject(error)
+                return
+            }
+            const chunks: Buffer[] = []
+            res.on("data", chunk => {
+                chunks.push(chunk)
+            })
+            res.on("end", () => {
+                switch (chunks.length) {
+                    case 0:
+                        reject(new Error(`${url}: no data`))
+                        break
+                    case 1:
+                        resolve(JSON.parse(chunks[0].toString()) as T)
+                        break
+                    default:
+                        resolve(JSON.parse(Buffer.concat(chunks).toString()) as T)
+                }
+            })
+            res.on("error", err => {
+                reject(err)
+            })
+        })
+        req.end()
+    }))
+}
+
+async function resolveVersion(input: string): Promise<string> {
+    if (input !== "latest") return input
+
+    const {tag_name} = await getJson('https://api.github.com/repos/mergermarket/cdflow2/releases/latest')
+    info(`Using latest cdflow2: '${tag_name}'`)
+
+    return tag_name
+}
+
 async function main() {
-    const cdflowVersion = getInput("version")
+    const cdflowVersion = await resolveVersion(getInput("version"))
 
     let toolPath = find("cdflow2", cdflowVersion, cdflowArch())
 
     if (!toolPath) {
-        const cdflowPath = await downloadTool(`https://github.com/mergermarket/cdflow2/releases/${cdflowVersion}/download/cdflow2-${process.platform}-${cdflowArch()}`)
+        const cdflowPath = await downloadTool(`https://github.com/mergermarket/cdflow2/releases/download/${cdflowVersion}/cdflow2-${process.platform}-${cdflowArch()}`)
         await fs.promises.chmod(cdflowPath, 0o775)
 
         const cdflowPathDir = cdflowPath + "_dir"
