@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
     "target": "es2019",
@@ -10,18 +11,19 @@
     ],
     "outDir": "dist",
     "module": "commonjs",
-    "esModuleInterop": true,
-    "strict": true,
-    "resolveJsonModule": true,
-    "noImplicitAny": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
     "moduleResolution": "node",
+    "importHelpers": true,
+    "esModuleInterop": true,
     "incremental": true
   },
+  "exclude": [
+    "node_modules",
+    "out",
+    "test",
+    "dist",
+    "**/*.test.ts",
+    "**/__mocks__/*"
+  ],
   "include": [
     "src/**/*",
     "typings/**/*"
