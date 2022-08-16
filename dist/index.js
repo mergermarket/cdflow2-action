@@ -5925,6 +5925,7 @@ function fetchAppVersion() {
     if (configured !== "")
         return configured;
     const generated = `${(_a = process_1.default.env.GITHUB_REPOSITORY) === null || _a === void 0 ? void 0 : _a.replace("/", "_")}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_RUN_ATTEMPT}-${process_1.default.env.GITHUB_SHA}`;
+    (0, core_1.info)(`Generated app version "${generated}"`);
     (0, core_1.setOutput)("appVersion", generated);
     return generated;
 }

@@ -20,6 +20,7 @@ function fetchAppVersion(): string {
     if (configured !== "") return configured
 
     const generated = `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_RUN_ATTEMPT}-${process.env.GITHUB_SHA}`;
+    info(`Generated app version "${generated}"`)
     setOutput("appVersion", generated)
     return generated
 }
