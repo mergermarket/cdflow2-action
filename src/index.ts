@@ -1,6 +1,6 @@
 import process from "process"
 import fs from "fs"
-import {addPath, debug, getBooleanInput, getInput, info, setFailed} from "@actions/core"
+import {addPath, debug, getBooleanInput, getInput, info, setFailed, setOutput} from "@actions/core"
 import {cacheDir, downloadTool, find} from "@actions/tool-cache"
 import {exec} from "@actions/exec"
 import {mv} from "@actions/io"
@@ -19,7 +19,9 @@ function fetchAppVersion(): string {
     const configured = getInput("appVersion")
     if (configured !== "") return configured
 
-    return `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_RUN_ATTEMPT}-${process.env.GITHUB_SHA}`
+    const generated = `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_RUN_ATTEMPT}-${process.env.GITHUB_SHA}`;
+    setOutput("appVersion", generated)
+    return generated
 }
 
 async function getJson<T = any>(url: string): Promise<T> {
