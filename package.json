@@ -13,7 +13,7 @@
     "@swc/core": "^1.2.224",
     "@swc/jest": "^0.2.22",
     "@tsconfig/recommended": "^1.0.1",
-    "@types/jest": "^28.1.6",
+    "@types/jest": "^28.1.8",
     "@types/node": "^16.11.26",
     "@vercel/ncc": "^0.34.0",
     "jest": "^28.1.3",
