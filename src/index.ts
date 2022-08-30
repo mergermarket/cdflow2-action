@@ -1,6 +1,6 @@
-import process from "process"
-import fs from "fs"
-import {addPath, debug, getBooleanInput, getInput, info, setFailed, setOutput} from "@actions/core"
+import process from "node:process"
+import fs from "node:fs"
+import {addPath, debug, getBooleanInput, getInput, info, setOutput} from "@actions/core"
 import {cacheDir, downloadTool, find} from "@actions/tool-cache"
 import {exec} from "@actions/exec"
 import {mv} from "@actions/io"
@@ -72,31 +72,30 @@ async function resolveVersion(input: string): Promise<string> {
     return tag_name
 }
 
-async function main() {
-    const cdflowVersion = await resolveVersion(getInput("version"))
+const cdflowVersion = await resolveVersion(getInput("version"))
 
-    let toolPath = find("cdflow2", cdflowVersion, cdflowArch())
+let toolPath = find("cdflow2", cdflowVersion, cdflowArch())
 
-    if (!toolPath) {
-        const cdflowPath = await downloadTool(`https://github.com/mergermarket/cdflow2/releases/download/${cdflowVersion}/cdflow2-${process.platform}-${cdflowArch()}`)
-        await fs.promises.chmod(cdflowPath, 0o775)
+if (!toolPath) {
+    const cdflowPath = await downloadTool(`https://github.com/mergermarket/cdflow2/releases/download/${cdflowVersion}/cdflow2-${process.platform}-${cdflowArch()}`)
+    await fs.promises.chmod(cdflowPath, 0o775)
 
-        const cdflowPathDir = cdflowPath + "_dir"
-        const cdflow2Leafname = process.platform === "win32" ? "cdflow2.exe" : "cdflow2"
-        const cdflow2Exe = cdflowPathDir + "/" + cdflow2Leafname
-        await mv(cdflowPath, cdflow2Exe)
-        debug('Caching cdflow2')
-        toolPath = await cacheDir(cdflowPathDir, "cdflow2", cdflowVersion, cdflowArch())
-    }
-    else {
-        debug('Used cached cdflow2')
-    }
+    const cdflowPathDir = cdflowPath + "_dir"
+    const cdflow2Leafname = process.platform === "win32" ? "cdflow2.exe" : "cdflow2"
+    const cdflow2Exe = cdflowPathDir + "/" + cdflow2Leafname
+    await mv(cdflowPath, cdflow2Exe)
+    debug('Caching cdflow2')
+    toolPath = await cacheDir(cdflowPathDir, "cdflow2", cdflowVersion, cdflowArch())
+}
+else {
+    debug('Used cached cdflow2')
+}
 
-    addPath(toolPath)
+addPath(toolPath)
 
-    const cdflowCommand = getInput("command")
-    if (cdflowCommand === "") return
+const cdflowCommand = getInput("command")
 
+if (cdflowCommand !== "") {
     const cdflowEnvironment: Record<string, string> = {}
     for (const [name, value] of Object.entries(process.env)) {
         if (value !== undefined) {
@@ -137,12 +136,3 @@ async function main() {
         env: cdflowEnvironment
     })
 }
-
-main().then(
-    () => {
-    },
-    err => {
-        console.error("Fatal error", err)
-        setFailed(err)
-    }
-)
