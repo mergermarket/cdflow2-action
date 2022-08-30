@@ -19,7 +19,7 @@ function fetchAppVersion(): string {
     const configured = getInput("appVersion")
     if (configured !== "") return configured
 
-    const generated = `${process.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_RUN_ATTEMPT}-${process.env.GITHUB_SHA}`;
+    const generated = `${process.env["GITHUB_REPOSITORY"]?.replace("/", "_")}-${process.env["GITHUB_RUN_NUMBER"]}-${process.env["GITHUB_RUN_ATTEMPT"]}-${process.env["GITHUB_SHA"]}`;
     info(`Generated app version "${generated}"`)
     setOutput("appVersion", generated)
     return generated
@@ -49,7 +49,7 @@ async function getJson<T = any>(url: string): Promise<T> {
                         reject(new Error(`${url}: no data`))
                         break
                     case 1:
-                        resolve(JSON.parse(chunks[0].toString()) as T)
+                        resolve(JSON.parse(chunks[0]!.toString()) as T)
                         break
                     default:
                         resolve(JSON.parse(Buffer.concat(chunks).toString()) as T)
@@ -124,7 +124,7 @@ async function main() {
     if (cdflowCommand === "release" || cdflowCommand === "deploy" || cdflowCommand === "destroy") {
         const appVersion = fetchAppVersion()
         args.push(appVersion)
-        cdflowEnvironment.JOB_NAME = appVersion
+        cdflowEnvironment["JOB_NAME"] = appVersion
     }
 
     if (cdflowCommand === "shell") {

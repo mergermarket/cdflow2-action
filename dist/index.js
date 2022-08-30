@@ -5923,7 +5923,7 @@ function fetchAppVersion() {
     const configured = (0, core_1.getInput)("appVersion");
     if (configured !== "")
         return configured;
-    const generated = `${process_1.default.env.GITHUB_REPOSITORY?.replace("/", "_")}-${process_1.default.env.GITHUB_RUN_NUMBER}-${process_1.default.env.GITHUB_RUN_ATTEMPT}-${process_1.default.env.GITHUB_SHA}`;
+    const generated = `${process_1.default.env["GITHUB_REPOSITORY"]?.replace("/", "_")}-${process_1.default.env["GITHUB_RUN_NUMBER"]}-${process_1.default.env["GITHUB_RUN_ATTEMPT"]}-${process_1.default.env["GITHUB_SHA"]}`;
     (0, core_1.info)(`Generated app version "${generated}"`);
     (0, core_1.setOutput)("appVersion", generated);
     return generated;
@@ -6013,7 +6013,7 @@ async function main() {
     if (cdflowCommand === "release" || cdflowCommand === "deploy" || cdflowCommand === "destroy") {
         const appVersion = fetchAppVersion();
         args.push(appVersion);
-        cdflowEnvironment.JOB_NAME = appVersion;
+        cdflowEnvironment["JOB_NAME"] = appVersion;
     }
     if (cdflowCommand === "shell") {
         args.push(...(0, core_1.getInput)("shellArgs").split(/\s+/));
