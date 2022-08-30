@@ -7,12 +7,13 @@
     "@actions/core": "^1.6.0",
     "@actions/exec": "^1.1.0",
     "@actions/io": "^1.1.1",
-    "@actions/tool-cache": "^1.7.1"
+    "@actions/tool-cache": "^1.7.1",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@swc/core": "^1.2.224",
     "@swc/jest": "^0.2.22",
-    "@tsconfig/recommended": "^1.0.1",
+    "@tsconfig/node16": "^1.0.3",
     "@types/jest": "^28.1.6",
     "@types/node": "^16.11.26",
     "@vercel/ncc": "^0.34.0",

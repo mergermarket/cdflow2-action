@@ -1,31 +1,12 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "target": "es2019",
-    "lib": [
-      "es2019",
-      "es2020.bigint",
-      "es2020.string",
-      "es2020.symbol.wellknown"
-    ],
-    "outDir": "dist",
-    "module": "commonjs",
-    "moduleResolution": "node",
     "importHelpers": true,
-    "esModuleInterop": true,
-    "incremental": true
+    "incremental": true,
+    "rootDir": "src",
+    "outDir": "dist"
   },
   "exclude": [
-    "node_modules",
-    "out",
-    "test",
-    "dist",
-    "**/*.test.ts",
-    "**/__mocks__/*"
-  ],
-  "include": [
-    "src/**/*",
-    "typings/**/*"
+    "**/*.test.ts"
   ]
 }
