@@ -9669,6 +9669,9 @@ if (cdflowCommand !== "") {
     if (cdflowCommand === "deploy" && (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getBooleanInput)("newState")) {
         args.push("--new-state");
     }
+    if ((cdflowCommand === "deploy" || cdflowCommand === "destroy") && (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getBooleanInput)("planOnly")) {
+        args.push("--plan-only");
+    }
     if (cdflowCommand === "deploy" || cdflowCommand === "destroy" || cdflowCommand === "shell") {
         args.push((0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)("environment"));
     }
