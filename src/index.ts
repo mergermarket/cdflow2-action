@@ -116,6 +116,10 @@ if (cdflowCommand !== "") {
         args.push("--new-state")
     }
 
+    if ((cdflowCommand === "deploy" || cdflowCommand === "destroy") && getBooleanInput("planOnly")) {
+        args.push("--plan-only")
+    }
+
     if (cdflowCommand === "deploy" || cdflowCommand === "destroy" || cdflowCommand === "shell") {
         args.push(getInput("environment"))
     }

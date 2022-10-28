@@ -44,4 +44,4 @@ steps:
 ```
 
 As with `release`, this will synthesise an application version. You can specify a `newState` input to pass
-the `--new-state` option.
+the `--new-state` option and/or a `planOnly` input to pass the `--plan-only` option.
