@@ -31,10 +31,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v3
     - uses: docker/setup-qemu-action@v2
       if: ${{ inputs.command == 'release' }}
-    - uses: ./cdflow2
+    - uses: mergermarket/cdflow2-action/cdflow2@composite
       with:
         version: ${{ inputs.version }}
         command: ${{ inputs.command }}
