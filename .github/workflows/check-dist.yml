@@ -2,7 +2,7 @@ name: Verify dist
 on:
   push:
     branches:
-      - main
+      - '*'
 
 jobs:
   verify-dist:
