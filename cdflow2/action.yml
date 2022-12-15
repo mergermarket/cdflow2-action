@@ -1,5 +1,5 @@
-name: 'Prepare environment and run cdflow2'
-description: 'Prepare environment and runs cdflow2 in current build'
+name: 'Run cdflow2'
+description: 'Runs cdflow2 in current build'
 inputs:
   version:
     description: 'cdflow2 version'
@@ -29,17 +29,5 @@ inputs:
     description: 'component to act on'
     required: false
 runs:
-  using: 'composite'
-  steps:
-    - uses: docker/setup-qemu-action@v2
-      if: ${{ inputs.command == 'release' }}
-    - uses: ./cdflow2
-      with:
-        version: ${{ inputs.version }}
-        command: ${{ inputs.command }}
-        environment: ${{ inputs.environment }}
-        newState: ${{ inputs.newState }}
-        planOnly: ${{ inputs.planOnly }}
-        appVersion: ${{ inputs.appVersion }}
-        shellArgs: ${{ inputs.shellArgs }}
-        component: ${{ inputs.component }}
+  using: 'node16'
+  main: 'dist/index.js'

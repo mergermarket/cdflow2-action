@@ -1,3 +1,3 @@
-/node_modules
+cdflow2/node_modules
+cdflow2/*.tsbuildinfo
 /.idea
-*.tsbuildinfo
