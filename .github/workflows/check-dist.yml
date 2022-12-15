@@ -1,6 +1,8 @@
 name: Verify dist
 on:
   push:
+    path:
+      - 'cdflow2/**'
     branches:
       - '*'
 
