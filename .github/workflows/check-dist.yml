@@ -4,7 +4,7 @@ on:
     path:
       - 'cdflow2/**'
     branches:
-      - '*'
+      - main
 
 jobs:
   verify-dist:
