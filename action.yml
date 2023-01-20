@@ -28,6 +28,10 @@ inputs:
   component:
     description: 'component to act on'
     required: false
+  githubToken:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

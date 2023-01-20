@@ -27,11 +27,19 @@ function fetchAppVersion(): string {
 
 async function getJson<T = any>(url: string): Promise<T> {
     return new Promise(((resolve, reject) => {
+        const githubToken = getInput("githubToken")
+
+        let headers = {
+            "accept": "application/vnd.github.v3+json",
+            "user-agent": "cdflow2-action/0.0"
+        }
+        
+        if (githubToken) {
+            headers = Object.assign(headers, { "authorization": `Bearer ${githubToken}` })
+        }
+        
         const req = https.request(url, {
-            headers: {
-                "accept": "application/vnd.github.v3+json",
-                "user-agent": "cdflow2-action/0.0"
-            }
+            headers: headers
         }, res => {
             if (res.statusCode !== 200) {
                 const error = new Error(`${url}: ${res.statusCode} ${res.statusMessage}`)
