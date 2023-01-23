@@ -41,7 +41,6 @@ async function getJson<T = any>(url: string): Promise<T> {
         const req = https.request(url, {
             headers: headers
         }, res => {
-            info(`response headers: ${JSON.stringify(res.headers)}`)
             if (res.statusCode !== 200) {
                 const error = new Error(`${url}: ${res.statusCode} ${res.statusMessage}`)
                 res.destroy(error)

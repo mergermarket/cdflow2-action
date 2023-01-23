@@ -8354,7 +8354,6 @@ async function getJson(url) {
         const req = https__WEBPACK_IMPORTED_MODULE_6___default().request(url, {
             headers: headers
         }, res => {
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)(`response headers: ${JSON.stringify(res.headers)}`);
             if (res.statusCode !== 200) {
                 const error = new Error(`${url}: ${res.statusCode} ${res.statusMessage}`);
                 res.destroy(error);
