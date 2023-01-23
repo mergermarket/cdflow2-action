@@ -8343,11 +8343,11 @@ function fetchAppVersion() {
 }
 async function getJson(url) {
     return new Promise(((resolve, reject) => {
-        const githubToken = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)("githubToken");
         let headers = {
             "accept": "application/vnd.github.v3+json",
             "user-agent": "cdflow2-action/0.0"
         };
+        const githubToken = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)("githubToken");
         if (githubToken) {
             headers = Object.assign(headers, { "authorization": `Bearer ${githubToken}` });
         }

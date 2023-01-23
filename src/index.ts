@@ -27,13 +27,12 @@ function fetchAppVersion(): string {
 
 async function getJson<T = any>(url: string): Promise<T> {
     return new Promise(((resolve, reject) => {
-        const githubToken = getInput("githubToken")
-
         let headers = {
             "accept": "application/vnd.github.v3+json",
             "user-agent": "cdflow2-action/0.0"
         }
         
+        const githubToken = getInput("githubToken")
         if (githubToken) {
             headers = Object.assign(headers, { "authorization": `Bearer ${githubToken}` })
         }
