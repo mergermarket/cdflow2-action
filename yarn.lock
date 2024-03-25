@@ -66,10 +66,10 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/esm/-/esm-1.0.5.tgz#e38e62ddc078225768512e56f1c563a66db41382"
   integrity sha512-JzoZ0h299JRLPfV5VBsMq1TuMy+OmU9bdV/7NcjfRojL0eIcA1k5ESrtjWrDwJRJnk9B0QmgR0rq04LERbdfWw==
 
-"@tsconfig/node20@^20.1.2":
-  version "20.1.2"
-  resolved "https://registry.yarnpkg.com/@tsconfig/node20/-/node20-20.1.2.tgz#b93128c411d38e9507035255195bc8a6718541e3"
-  integrity sha512-madaWq2k+LYMEhmcp0fs+OGaLFk0OenpHa4gmI4VEmCKX4PJntQ6fnnGADVFrVkBj0wIdAlQnK/MrlYTHsa1gQ==
+"@tsconfig/node20@^20.1.3":
+  version "20.1.3"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node20/-/node20-20.1.3.tgz#b3b4cf785e1b390a6ab48a68aa594a25960d2fe8"
+  integrity sha512-XeWn6Gms5MaQWdj+C4fuxuo/Icy8ckh+BwAIijhX2LKRHHt1OuctLLLlB0F4EPi55m2IUJNTnv8FH9kSBI7Ogw==
 
 "@types/node@^20.11.10":
   version "20.11.10"
