@@ -1,5 +1,16 @@
 version: 2
 
+registries:
+  npm-github:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{ secrets.IONA_GITHUB_PACKAGE_TOKEN }}
+  github-internal:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: ${{ secrets.IONA_GITHUB_PACKAGE_TOKEN }}
+
 updates:
   - package-ecosystem: npm
     directory: "/"
@@ -7,7 +18,20 @@ updates:
       interval: daily
       time: "07:00"
       timezone: Europe/London
-    open-pull-requests-limit: 10
+    registries:
+      - npm-github
     ignore:
       - dependency-name: '@types/node'
         update-types: [ 'version-update:semver-major' ]
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "07:00"
+      timezone: Europe/London
+    registries:
+      - github-internal
+    groups:
+      github:
+        patterns:
+          - "actions/*"
