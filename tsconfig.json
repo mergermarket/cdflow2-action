@@ -1,7 +1,7 @@
 {
   "extends": [
     "@tsconfig/esm/tsconfig.json",
-    "@tsconfig/node20/tsconfig.json"
+    "@tsconfig/node24/tsconfig.json"
   ],
   "compilerOptions": {
     "importHelpers": true,
