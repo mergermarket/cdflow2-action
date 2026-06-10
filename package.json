@@ -14,7 +14,7 @@
     "@tsconfig/esm": "^1.0.5",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.0",
-    "@vercel/ncc": "^0.38.4",
+    "@vercel/ncc": "^0.44.0",
     "typescript": "^5.9.3"
   },
   "type": "module",
